@@ -1,6 +1,6 @@
 import React,{ useState, useEffect } from 'react';
 import SimpleAppBar from "./components/appbar"
-import {Button, Container, Drawer, Grid, Paper, TextField } from "@mui/material";
+import {Button, Container, Drawer, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from "@mui/material";
 import AddTaskIcon from '@mui/icons-material/AddTask';
 import axios from 'axios'
 import { Delete } from '@mui/icons-material';
@@ -69,31 +69,41 @@ useEffect(() => {
     <div>
       <SimpleAppBar />
       <p></p>
-      <Container>
-        <Grid container>
-          {tasks.map((task) =>(
-            <Grid item key={task.id} xs={12} sm={12} md={12}>
-              <div class = "grid-item">
-                <Paper>
-                  <Container>
-                  <h2 style={{fontSize: '25px', fontFamily:'inherit'}}>{task.taks_title}<Button onClick={()=>handledelete(task.id)} style={{paddingLeft:'95%', 
+      <br />
+      <TableContainer component={Paper}>
+        <Table sx={{minWidth:650}} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+                <TableCell>ID</TableCell>
+                <TableCell align='right'>TASK NAME</TableCell>
+                <TableCell align='right'>TASK DESCRIPTION</TableCell>
+                <TableCell align='right'>DELETE</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+              {tasks.map((task) => (
+                <TableRow
+                    key={task.id}
+                    sx={{ '&:last-child td, &:last-child th': {border: 0}}}
+                    >
+                      <TableCell component="th" scope="row">
+                        {task.id}
+                      </TableCell>
+                      <TableCell align="right">{task.taks_title}</TableCell>
+                      <TableCell align="right">{task.tasks_descriptions}</TableCell>
+                      <TableCell align="right">
+                      <Button onClick={()=>handledelete(task.id)} style={{paddingLeft:'95%', 
                     fontSize:'20px',
                     }}>
-                    <Delete /></Button></h2>
-                  <p>{task.tasks_descriptions} </p>
-                  </Container>
-                </Paper>
-              </div>
-            </Grid>
-          ))}  
-        </Grid>
-          </Container>
-      <div className='icon-action'>
-            <Paper elevation={6}>
-              <Button onClick={toggleDrawer}>
-                  <AddTaskIcon  elevation={3} style = {{fontSize:'60px'}}></AddTaskIcon>
-              </Button>
-            </Paper>
+                    <Delete /></Button></TableCell>                        
+                    </TableRow>
+              ))}
+          </TableBody>
+        </Table>
+        </TableContainer>
+          <Button onClick={toggleDrawer}>
+            <AddTaskIcon  elevation={3} style = {{fontSize:'60px', paddingTop: '10%',paddingLeft:'0' }} ></AddTaskIcon>
+            </Button>
             <Drawer 
               anchor='bottom'
               open={isDrawerOpen}
@@ -127,6 +137,5 @@ useEffect(() => {
             </Container>
             </Drawer>
       </div>
-    </div>
   )
 }
